@@ -1,0 +1,20 @@
+[
+ {
+  "InstFile" : "C:/Users/str/Desktop/fpga/leds/src/top.v",
+  "InstLine" : 30,
+  "InstName" : "top",
+  "ModuleFile" : "C:/Users/str/Desktop/fpga/leds/src/top.v",
+  "ModuleLine" : 30,
+  "ModuleName" : "top",
+  "SubInsts" : [
+   {
+    "InstFile" : "C:/Users/str/Desktop/fpga/leds/src/top.v",
+    "InstLine" : 40,
+    "InstName" : "counterlocal",
+    "ModuleFile" : "C:/Users/str/Desktop/fpga/leds/src/counter.v",
+    "ModuleLine" : 116,
+    "ModuleName" : "counter"
+   }
+  ]
+ }
+]

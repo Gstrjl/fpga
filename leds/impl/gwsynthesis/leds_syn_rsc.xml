@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module name="top" T_Register="29(0)" T_Alu="23(0)" T_Lut="6(0)">
+ <SubModule name="counterlocal" Register="29" Alu="23" Lut="6" T_Register="29(29)" T_Alu="23(23)" T_Lut="6(6)"/>
+</Module>
