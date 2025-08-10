@@ -1,5 +1,4 @@
-module uart_tx 
-#( 
+module uart_tx #( 
     parameter DBIT = 8,           // 数据位宽
     parameter SB_TICK = 16        // 停止位的时钟周期数
 )(
@@ -8,7 +7,7 @@ module uart_tx
     input wire tx_start,          // 发送启动信号
     input wire s_tick,            // 时钟周期计数器
     input wire [7:0] din,         // 输入数据（待发送的字节）
-    output reg tx_done_tick,      // 数据发送完成标志
+    output wire tx_done_tick,     // 数据发送完成标志 - 改为wire
     output wire tx                // 串口数据输出
 );
 
@@ -24,6 +23,11 @@ module uart_tx
     reg [2:0] n_reg, n_next;             // 数据位计数器
     reg [7:0] b_reg, b_next;             // 数据寄存器
     reg tx_reg, tx_next;                 // 串口输出寄存器（发送数据）
+    reg tx_done_tick_reg;                // 内部寄存器用于tx_done_tick
+
+    // 将内部寄存器连接到输出线
+    assign tx_done_tick = tx_done_tick_reg;
+    assign tx = tx_reg;
 
     // 状态和数据寄存器的更新
     always @(posedge clk or posedge reset) begin
@@ -45,7 +49,7 @@ module uart_tx
     // 状态机的下一个状态逻辑与功能单元
     always @(*) begin
         state_next = state_reg;
-        tx_done_tick = 0;
+        tx_done_tick_reg = 0;  // 使用内部寄存器
         s_next = s_reg;
         n_next = n_reg;
         b_next = b_reg;
@@ -96,7 +100,7 @@ module uart_tx
                 if (s_tick) begin
                     if (s_reg == (SB_TICK - 1)) begin
                         state_next = IDLE;
-                        tx_done_tick = 1'b1; // 数据发送完成标志
+                        tx_done_tick_reg = 1'b1; // 数据发送完成标志
                     end else begin
                         s_next = s_reg + 1;
                     end
@@ -108,8 +112,4 @@ module uart_tx
             end
         endcase
     end
-
-    // 输出 tx 信号
-    assign tx = tx_reg;
-
 endmodule

@@ -1,19 +1,23 @@
 module uart_ascii_top(
-    input clk,
-    input rst_n,
-    input rx,
-    output tx,
-    output [7:0] led
+    input wire clk,
+    input wire rst_n,
+    input wire rx,
+    output wire tx,
+    output wire [5:0] led  // Tang Nano 9K 有6个LED
 );
     wire baud_tick;
     wire [7:0] rx_data;
     wire rx_done;
-    wire [23:0] ascii_dec;  // 修改为24位输出!
+    wire [23:0] ascii_dec;  // 修改为24位输出
     wire tx_done;
     
     reg [1:0] tx_state = 0;  // 增加发送状态机
     reg [7:0] tx_char;       // 当前发送的字符
     reg tx_start;            // 发送启动信号
+    reg [5:0] led_reg = 6'b000000;  // LED寄存器，6位
+    
+    // Tang Nano 9K的LED是共阳极，需要低电平点亮
+    assign led = ~led_reg;  // 取反输出
     
     baud_gen baud_gen_inst (
         .clk(clk),
@@ -49,7 +53,14 @@ module uart_ascii_top(
         .tx(tx)
     );
     
-    assign led = rx_data;
+    // LED更新逻辑
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            led_reg <= 6'b000000;  // 复位时全灭
+        end else if (rx_done) begin
+            led_reg <= rx_data[5:0];  // 只显示低6位
+        end
+    end
     
     // 新增状态机：分3次发送ASCII十进制值
     always @(posedge clk or negedge rst_n) begin

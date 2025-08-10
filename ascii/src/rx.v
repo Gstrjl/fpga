@@ -6,7 +6,7 @@ module uart_rx #(
     input wire rst_n,          // 复位信号
     input wire rx,             // 接收数据线
     input wire s_tick,         // 每个时钟周期的时钟脉冲
-    output reg rx_done_tick,   // 数据接收完成标志
+    output wire rx_done_tick,  // 数据接收完成标志 - 改为wire
     output wire [7:0] dout     // 接收到的数据
 );
     // 定义状态
@@ -20,6 +20,11 @@ module uart_rx #(
     reg [3:0] s_reg, s_next;          // 状态计数器
     reg [2:0] n_reg, n_next;          // 数据位计数器
     reg [7:0] b_reg, b_next;          // 数据寄存器
+    reg rx_done_tick_reg;             // 内部寄存器用于rx_done_tick
+
+    // 将内部寄存器连接到输出线
+    assign rx_done_tick = rx_done_tick_reg;
+    assign dout = b_reg;
 
     // 时序逻辑 - 状态寄存器更新
     always @(posedge clk or negedge rst_n) begin
@@ -40,7 +45,7 @@ module uart_rx #(
     always @(*) begin
         // 默认值保持当前状态
         state_next = state_reg;
-        rx_done_tick = 0;
+        rx_done_tick_reg = 0;  // 使用内部寄存器
         s_next = s_reg;
         n_next = n_reg;
         b_next = b_reg;
@@ -86,7 +91,7 @@ module uart_rx #(
                 if (s_tick) begin
                     if (s_reg == (SB_TICK - 1)) begin
                         state_next = IDLE;
-                        rx_done_tick = 1;  // 接收完成标志
+                        rx_done_tick_reg = 1;  // 接收完成标志
                     end else begin
                         s_next = s_reg + 1;
                     end
@@ -96,7 +101,4 @@ module uart_rx #(
             default: state_next = IDLE;
         endcase
     end
-
-    // 输出接收到的数据
-    assign dout = b_reg;
 endmodule

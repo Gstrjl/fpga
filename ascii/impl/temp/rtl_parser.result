@@ -9,7 +9,7 @@
   "SubInsts" : [
    {
     "InstFile" : "C:/Users/str/Desktop/fpga/ascii/src/top.v",
-    "InstLine" : 18,
+    "InstLine" : 22,
     "InstName" : "baud_gen_inst",
     "ModuleFile" : "C:/Users/str/Desktop/fpga/ascii/src/baud_gen.v",
     "ModuleLine" : 1,
@@ -17,7 +17,7 @@
    },
    {
     "InstFile" : "C:/Users/str/Desktop/fpga/ascii/src/top.v",
-    "InstLine" : 24,
+    "InstLine" : 28,
     "InstName" : "rx_inst",
     "ModuleFile" : "C:/Users/str/Desktop/fpga/ascii/src/rx.v",
     "ModuleLine" : 1,
@@ -25,7 +25,7 @@
    },
    {
     "InstFile" : "C:/Users/str/Desktop/fpga/ascii/src/top.v",
-    "InstLine" : 34,
+    "InstLine" : 38,
     "InstName" : "proc_inst",
     "ModuleFile" : "C:/Users/str/Desktop/fpga/ascii/src/ascii.v",
     "ModuleLine" : 1,
@@ -33,7 +33,7 @@
    },
    {
     "InstFile" : "C:/Users/str/Desktop/fpga/ascii/src/top.v",
-    "InstLine" : 42,
+    "InstLine" : 46,
     "InstName" : "tx_inst",
     "ModuleFile" : "C:/Users/str/Desktop/fpga/ascii/src/tx.v",
     "ModuleLine" : 1,
